@@ -84,15 +84,16 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Baseline: Decorative Geometric Footer Banner */}
-        <div className="footer-geometric-baseline" aria-hidden="true">
-          <img
-            src="/figma%20images/image%20123.png"
-            alt=""
-            className="footer-geometric-img"
-            loading="lazy"
-          />
-        </div>
+      </div>
+
+      {/* Bottom Baseline: Decorative Geometric Footer Banner */}
+      <div className="footer-geometric-baseline" aria-hidden="true">
+        <img
+          src="/figma%20images/image%20123.png"
+          alt=""
+          className="footer-geometric-img"
+          loading="lazy"
+        />
       </div>
     </footer>
   );
