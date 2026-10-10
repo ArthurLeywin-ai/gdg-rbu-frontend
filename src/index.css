@@ -74,52 +74,218 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  background-color: #fef08a; /* Soft warning/notice yellow */
-  color: var(--color-black);
-  border: var(--border-medium);
-  box-shadow: var(--shadow-md);
-  padding: 10px 18px;
-  border-radius: 6px;
+  background-color: #FFEB60;
+  color: #000000;
+  border: 3px solid #000000;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 #000000;
+  padding: 10px 14px 10px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
-  max-width: calc(100vw - 32px);
+  width: max-content;
+  max-width: min(640px, calc(100vw - 32px));
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Animation 1: Column Assembly Entrance */
+.app-notice-toast.is-assembling {
+  background-color: #ffffff;
+}
+
+.toast-columns-wrapper {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.toast-assembly-col {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #FFEB60;
+  border-right: 1.5px dashed rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  transform-origin: top center;
+  animation: col-assemble 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.toast-assembly-col:last-child {
+  border-right: none;
+}
+
+@keyframes col-assemble {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Synchronized content reveal during column assembly */
+.toast-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.app-notice-toast.is-assembling .toast-content-wrapper {
+  animation: toast-content-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes toast-content-reveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+/* Toast during Animation 2: Shatter Exit */
+.app-notice-toast.is-shattering {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Animation 2: Upward Square-Shatter Exit Container & Tiles */
+.toast-shatter-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1002;
+  overflow: hidden;
+}
+
+.toast-shatter-tile {
+  position: fixed;
+  background-color: #FFEB60;
+  border: 2px solid #000000;
+  box-shadow: 1px 1px 0 #000000;
+  border-radius: 2px;
+  box-sizing: border-box;
+  transform-origin: center center;
+  animation-name: tile-shatter-up;
+  animation-duration: var(--tile-duration, 600ms);
+  animation-delay: var(--tile-delay, 0ms);
+  animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1);
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes tile-shatter-up {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  15% {
+    /* Visible crack separation before upward eruption */
+    transform: translate(calc(var(--target-x) * 0.06), -3px) rotate(calc(var(--target-rot) * 0.12));
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--target-x), var(--target-y)) rotate(var(--target-rot));
+    opacity: 0;
+  }
 }
 
 .notice-icon {
-  font-size: 1rem;
+  font-size: 24px;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
 }
 
 .notice-text {
   flex: 1;
+  min-width: 0;
+  text-align: left;
+  line-height: 1.4;
+  word-break: normal;
+  overflow-wrap: break-word;
+  color: #000000;
 }
 
 .notice-dismiss-btn {
   background: transparent;
-  border: none;
-  color: var(--color-black);
+  border: 2px solid transparent;
+  color: #000000;
   font-weight: 800;
   cursor: pointer;
-  padding: 2px 6px;
-  font-size: 1rem;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
   line-height: 1;
   border-radius: 4px;
+  flex-shrink: 0;
+  transition: background-color 0.12s ease;
 }
 
 .notice-dismiss-btn:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
-/* Respect reduced motion globally */
+.notice-dismiss-btn:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 1px;
+}
+
+@media (max-width: 640px) {
+  .app-notice-toast {
+    width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+  }
+
+  .notice-dismiss-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-notice-toast {
+    padding: 8px 10px 8px 12px;
+    gap: 12px;
+  }
+
+  .notice-text {
+    font-size: 0.78rem;
+  }
+}
+
+/* Respect reduced motion for non-essential scroll animations */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  html {
     scroll-behavior: auto !important;
   }
 }
