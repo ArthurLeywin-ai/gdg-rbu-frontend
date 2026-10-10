@@ -15,7 +15,7 @@ export const GalleryPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="page-body-content">
+      <div className="page-body-content">
         <div className="gallery-grid">
           <article className="gallery-card">
             <div className="gallery-img-container">
@@ -69,7 +69,7 @@ export const GalleryPage: React.FC = () => {
             High-resolution photo albums and event reels from past chapter cohorts are currently being archived and will be published alongside upcoming semester sessions.
           </span>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

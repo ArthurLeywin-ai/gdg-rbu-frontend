@@ -44,9 +44,13 @@ export const App: React.FC = () => {
   const shatterTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Set initial document title based on starting route
+  // Set initial document title based on starting route and sync unknown URLs
   useEffect(() => {
     document.title = ROUTES[currentPath]?.documentTitle || 'GDG RBU — Google Developer Groups On Campus';
+    const cleanPath = normalizePath(window.location.pathname);
+    if (window.location.pathname !== cleanPath) {
+      window.history.replaceState(null, '', cleanPath);
+    }
   }, [currentPath]);
 
   // Handle browser back/forward buttons

@@ -137,3 +137,14 @@
     font-size: 0.88rem;
   }
 }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .faq-answer-card {
+    animation: none !important;
+  }
+  .faq-question-btn,
+  .faq-chevron {
+    transition: none !important;
+  }
+}

@@ -16,7 +16,7 @@ export const MorePage: React.FC = () => {
         </div>
       </header>
 
-      <main className="page-body-content">
+      <div className="page-body-content">
         <div className="page-cards-grid">
           <article className="page-neo-card">
             <span className="card-tag tag-blue">ABOUT US</span>
@@ -50,7 +50,7 @@ export const MorePage: React.FC = () => {
         <div style={{ marginTop: '48px' }}>
           <FAQ />
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

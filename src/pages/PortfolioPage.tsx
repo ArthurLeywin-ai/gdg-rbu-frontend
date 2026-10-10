@@ -15,43 +15,14 @@ export const PortfolioPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="page-body-content">
-        <div className="page-cards-grid">
-          <article className="page-neo-card">
-            <span className="card-tag tag-blue">OPEN SOURCE</span>
-            <h3 className="card-heading">GDG Campus Portal</h3>
-            <p className="card-desc">
-              Community web platform built with React, TypeScript, and modern frontend tools to manage event registrations, student showcases, and announcements.
-            </p>
-            <span className="card-footer-note">Tech Stack: React • Vite • TypeScript</span>
-          </article>
-
-          <article className="page-neo-card">
-            <span className="card-tag tag-green">MOBILE APP</span>
-            <h3 className="card-heading">Campus Guide Companion</h3>
-            <p className="card-desc">
-              Cross-platform mobile application providing navigation assistance, event calendars, and notifications for university students.
-            </p>
-            <span className="card-footer-note">Tech Stack: Flutter • Firebase • Dart</span>
-          </article>
-
-          <article className="page-neo-card">
-            <span className="card-tag tag-yellow">SOLUTION CHALLENGE</span>
-            <h3 className="card-heading">Smart Energy Monitor</h3>
-            <p className="card-desc">
-              IoT-connected environmental analytics dashboard addressing United Nations Sustainable Development Goals using Google Cloud platform tools.
-            </p>
-            <span className="card-footer-note">Tech Stack: Python • Google Cloud • IoT</span>
-          </article>
+      <div className="page-body-content">
+        <div className="page-neo-card" style={{ textAlign: 'center', padding: '48px 24px', maxWidth: '600px', margin: '0 auto' }}>
+          <h2 className="card-heading" style={{ fontSize: '1.5rem', marginBottom: '16px' }}>Student projects coming soon</h2>
+          <p className="card-desc">
+            Verified details for open-source repositories and community projects will be added as they become available.
+          </p>
         </div>
-
-        <div className="page-notice-banner">
-          <span className="notice-banner-icon" aria-hidden="true">💡</span>
-          <span className="notice-banner-text">
-            Student repositories and collaborative portfolio showcases are currently being indexed for the 2026–27 session.
-          </span>
-        </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

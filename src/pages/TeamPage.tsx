@@ -16,7 +16,7 @@ export const TeamPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="page-body-content">
+      <div className="page-body-content">
         {/* Core Team Component */}
         <Team />
 
@@ -62,7 +62,7 @@ export const TeamPage: React.FC = () => {
             </span>
           </div>
         </section>
-      </main>
+      </div>
 
       <Footer />
     </div>

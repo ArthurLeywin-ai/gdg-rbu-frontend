@@ -22,7 +22,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ onRegisterClick }) => {
       </header>
 
       {/* Main Page Content */}
-      <main className="page-body-content">
+      <div className="page-body-content">
         {/* Core Upcoming Event Component */}
         <UpcomingEvent onRegisterClick={onRegisterClick} />
 
@@ -68,7 +68,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ onRegisterClick }) => {
             </span>
           </div>
         </section>
-      </main>
+      </div>
 
       <Footer />
     </div>

@@ -283,10 +283,23 @@ body {
   }
 }
 
-/* Respect reduced motion for non-essential scroll animations */
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
+  }
+
+  .app-notice-toast.is-assembling .toast-content-wrapper {
+    animation: none !important;
+    clip-path: inset(0 0 0 0) !important;
+  }
+
+  .toast-assembly-col {
+    display: none !important;
+  }
+
+  .toast-shatter-tile {
+    display: none !important;
   }
 }
 
