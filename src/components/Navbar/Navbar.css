@@ -115,6 +115,16 @@
   color: var(--color-black);
 }
 
+/* Distinct Active Navigation Pill Indicator */
+.nav-pill.active {
+  box-shadow: 4px 4px 0px var(--color-black);
+  transform: translate(-1px, -1px);
+  border-width: 2.5px;
+  font-weight: 800;
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
 /* ==========================================================================
    Official "Join Us" CTA (Replaces legacy profile chip)
    ========================================================================== */

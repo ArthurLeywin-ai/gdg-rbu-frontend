@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Branded Page Transition / Loading Screen (Neo-Brutalist)
+   ========================================================================== */
+
+.loading-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background-color: var(--bg-page);
+  background-image:
+    linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
+  background-size: var(--grid-pitch) var(--grid-pitch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: loading-fade-in 0.15s ease-out;
+}
+
+@keyframes loading-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.loading-neo-card {
+  background-color: var(--color-white);
+  border: 3px solid var(--color-black);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 90vw;
+  width: 400px;
+  box-sizing: border-box;
+}
+
+/* 4-Color Brand Accent Dots */
+.loading-accent-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.accent-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--color-black);
+  box-shadow: 1.5px 1.5px 0px var(--color-black);
+}
+
+.dot-blue {
+  background-color: var(--google-blue);
+}
+
+.dot-red {
+  background-color: var(--google-red);
+}
+
+.dot-yellow {
+  background-color: var(--google-yellow);
+}
+
+.dot-green {
+  background-color: var(--google-green);
+}
+
+/* Loading Content */
+.loading-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.loading-spinner-pixel {
+  font-size: 1.3rem;
+  line-height: 1;
+  animation: pixel-pulse 0.8s infinite ease-in-out;
+}
+
+@keyframes pixel-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.loading-text {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-black);
+  letter-spacing: 0.3px;
+}
+
+/* Neo-Brutalist Animated Progress Bar */
+.loading-bar-track {
+  width: 100%;
+  height: 10px;
+  background-color: #f1f5f9;
+  border: 2px solid var(--color-black);
+  border-radius: 9999px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.loading-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--google-blue) 0%,
+    var(--google-yellow) 50%,
+    var(--google-green) 100%
+  );
+  animation: bar-progress 0.85s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+}
+
+@keyframes bar-progress {
+  0% {
+    width: 0%;
+  }
+  40% {
+    width: 65%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .loading-transition-overlay {
+    animation: none;
+  }
+
+  .loading-spinner-pixel {
+    animation: none;
+  }
+
+  .loading-bar-fill {
+    animation-duration: 0.1s;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-neo-card {
+    padding: 24px 20px;
+    width: 100%;
+  }
+
+  .loading-text {
+    font-size: 0.95rem;
+  }
+}

@@ -1,0 +1,266 @@
+/* ==========================================================================
+   Footer Section (Neo-Brutalist Framed Card + Geometric Baseline)
+   ========================================================================== */
+
+.footer-section {
+  width: 100%;
+  padding: 64px 24px 0 24px;
+  position: relative;
+  background-color: transparent;
+  scroll-margin-top: 80px;
+}
+
+.footer-container {
+  width: 100%;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+}
+
+/* Framed Main Card */
+.footer-main-card {
+  border: 3px solid var(--color-black);
+  border-radius: 20px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  padding: 48px;
+  box-sizing: border-box;
+}
+
+/* Brand Header */
+.footer-brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-brand-logo {
+  height: 52px;
+  width: auto;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.footer-brand-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.3vw, 1.9rem);
+  font-weight: 700;
+  color: var(--color-black);
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+
+.footer-brand-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-black);
+  letter-spacing: 0.3px;
+}
+
+/* Dashed Divider */
+.footer-dashed-divider {
+  width: 100%;
+  border-top: 3px dashed var(--color-black);
+  margin: 36px 0;
+}
+
+/* 2-Column Cards Grid */
+.footer-cards-grid {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer-contact-column {
+  flex: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-info-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 3px solid var(--color-black);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0px var(--color-black);
+  box-sizing: border-box;
+}
+
+.footer-info-pill.pill-blue {
+  background-color: #5ea4f8;
+  color: var(--color-black);
+}
+
+.footer-info-pill.pill-yellow {
+  background-color: var(--google-yellow);
+  color: var(--color-black);
+}
+
+.pill-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.pill-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pill-primary {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--color-black);
+}
+
+.pill-secondary {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111827;
+  margin-top: 2px;
+}
+
+/* Right: Purple Social Card */
+.footer-social-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #7c7ff6;
+  border: 3px solid var(--color-black);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0px var(--color-black);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.social-label {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-white);
+  margin-bottom: 16px;
+}
+
+.social-icons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 2.5px solid var(--color-black);
+  border-radius: 8px;
+  box-shadow: 3px 3px 0px var(--color-black);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  user-select: none;
+}
+
+.social-btn.social-insta {
+  background-color: #f87171;
+  color: var(--color-black);
+}
+
+.social-btn.social-linkedin {
+  background-color: #60a5fa;
+  color: var(--color-black);
+}
+
+.social-btn.social-x {
+  background-color: #4ade80;
+  color: var(--color-black);
+}
+
+.x-letter-glyph {
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.social-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px var(--color-black);
+}
+
+.social-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--color-black);
+}
+
+.social-btn:focus-visible {
+  outline: 3px solid var(--google-blue);
+  outline-offset: 3px;
+}
+
+/* Bottom Geometric Baseline */
+.footer-geometric-baseline {
+  width: 100%;
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.footer-geometric-img {
+  width: 100%;
+  max-width: var(--max-width-content);
+  height: auto;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-main-card {
+    padding: 32px 20px;
+  }
+
+  .footer-cards-grid {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-section {
+    padding: 36px 14px 0 14px;
+  }
+
+  .footer-main-card {
+    padding: 24px 16px;
+    border-radius: 14px;
+  }
+
+  .footer-brand-logo {
+    height: 42px;
+  }
+
+  .footer-info-pill {
+    padding: 14px 16px;
+  }
+
+  .pill-primary {
+    font-size: 0.9rem;
+  }
+
+  .pill-secondary {
+    font-size: 0.78rem;
+  }
+}

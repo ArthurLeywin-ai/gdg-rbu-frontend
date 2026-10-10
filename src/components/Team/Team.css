@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Team Section (Neo-Brutalist Layout + Framed Photograph)
+   ========================================================================== */
+
+.team-section {
+  width: 100%;
+  padding: 64px 24px 88px 24px;
+  position: relative;
+  background-color: transparent;
+  scroll-margin-top: 80px;
+}
+
+.team-container {
+  width: 100%;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+}
+
+.team-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  border: 3px solid var(--color-black);
+  border-radius: 20px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  padding: 48px;
+  box-sizing: border-box;
+}
+
+/* Left Column: Semantic Content */
+.team-content {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-black);
+  letter-spacing: -0.5px;
+  margin-bottom: 22px;
+}
+
+.team-heading-accent {
+  color: var(--color-black);
+}
+
+.team-lead {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.team-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.team-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.feature-icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  background-color: var(--google-green);
+  color: var(--color-white);
+  border: 2px solid var(--color-black);
+  box-shadow: 2px 2px 0px var(--color-black);
+  font-weight: 900;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-black);
+  margin-bottom: 4px;
+}
+
+.feature-desc {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* Right Column: Framed Photograph */
+.team-visual-column {
+  flex: 0.9;
+  display: flex;
+  justify-content: center;
+}
+
+.team-photo-frame {
+  width: 100%;
+  max-width: 440px;
+  border: 3px solid var(--color-black);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.team-photo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.team-photo-frame:hover .team-photo-img {
+  transform: scale(1.02);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+  .team-grid {
+    flex-direction: column;
+    padding: 32px 24px;
+    gap: 36px;
+  }
+
+  .team-visual-column {
+    width: 100%;
+  }
+
+  .team-photo-frame {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-section {
+    padding: 36px 14px 54px 14px;
+  }
+
+  .team-grid {
+    padding: 24px 16px;
+    gap: 28px;
+    border-radius: 14px;
+  }
+
+  .feature-icon-circle {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .feature-title {
+    font-size: 0.98rem;
+  }
+
+  .feature-desc {
+    font-size: 0.82rem;
+  }
+}

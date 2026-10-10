@@ -1,11 +1,29 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { AppRoute } from '../../router/routes';
 import './Navbar.css';
 
 interface NavbarProps {
+  currentPath: AppRoute;
+  onNavigate: (path: AppRoute) => void;
   onJoinClick?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
+interface NavItem {
+  path: AppRoute;
+  label: string;
+  pillClass: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { path: '/', label: 'Home', pillClass: 'pill-home' },
+  { path: '/team', label: 'Team', pillClass: 'pill-team' },
+  { path: '/events', label: 'Events', pillClass: 'pill-events' },
+  { path: '/gallery', label: 'Gallery', pillClass: 'pill-gallery' },
+  { path: '/portfolio', label: 'Portfolio', pillClass: 'pill-portfolio' },
+  { path: '/more', label: 'More', pillClass: 'pill-more' },
+];
+
+export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onJoinClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
@@ -41,6 +59,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
     setIsMobileMenuOpen(false);
   }, []);
 
+  const handleLinkClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, path: AppRoute) => {
+      e.preventDefault();
+      closeMobileMenu();
+      onNavigate(path);
+    },
+    [closeMobileMenu, onNavigate]
+  );
+
   const handleJoin = useCallback(() => {
     closeMobileMenu();
     onJoinClick?.();
@@ -50,7 +77,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
     <header className="navbar-header" role="banner">
       <div className="navbar-container">
         {/* Left: GDG Brand Logo */}
-        <a href="#hero" className="navbar-brand" aria-label="GDG RBU Homepage">
+        <a
+          href="/"
+          className="navbar-brand"
+          aria-label="GDG RBU Homepage"
+          onClick={(e) => handleLinkClick(e, '/')}
+        >
           <img
             src="/figma%20images/gdg%20logo.png"
             alt="Google Developer Groups Logo"
@@ -61,40 +93,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
         {/* Desktop Center: Navigation Pills with Exact Reference Colors */}
         <nav className="navbar-nav desktop-nav" aria-label="Main Navigation">
           <ul className="navbar-pill-list">
-            <li>
-              <a href="#hero" className="nav-pill pill-home active" aria-current="page">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#team" className="nav-pill pill-team">
-                Team
-              </a>
-            </li>
-            <li>
-              <a href="#events" className="nav-pill pill-events">
-                Events
-              </a>
-            </li>
-            <li>
-              <a href="#gallery" className="nav-pill pill-gallery">
-                Gallery
-              </a>
-            </li>
-            <li>
-              <a href="#portfolio" className="nav-pill pill-portfolio">
-                Portfolio
-              </a>
-            </li>
-            <li>
-              <a href="#more" className="nav-pill pill-more">
-                More
-              </a>
-            </li>
+            {NAV_ITEMS.map((item) => {
+              const isActive = currentPath === item.path;
+              return (
+                <li key={item.path}>
+                  <a
+                    href={item.path}
+                    className={`nav-pill ${item.pillClass} ${isActive ? 'active' : ''}`}
+                    onClick={(e) => handleLinkClick(e, item.path)}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
-        {/* Desktop Right: Official "Join Us" CTA (Replaces Saptanshu profile chip) */}
+        {/* Desktop Right: Official "Join Us" CTA */}
         <button
           type="button"
           className="nav-cta-join desktop-join"
@@ -130,66 +147,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
         <div className="mobile-nav-inner">
           <nav aria-label="Mobile Navigation">
             <ul className="mobile-pill-list">
-              <li>
-                <a
-                  href="#hero"
-                  className="nav-pill pill-home active"
-                  onClick={closeMobileMenu}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#team"
-                  className="nav-pill pill-team"
-                  onClick={closeMobileMenu}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Team
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#events"
-                  className="nav-pill pill-events"
-                  onClick={closeMobileMenu}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Events
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#gallery"
-                  className="nav-pill pill-gallery"
-                  onClick={closeMobileMenu}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Gallery
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#portfolio"
-                  className="nav-pill pill-portfolio"
-                  onClick={closeMobileMenu}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  Portfolio
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#more"
-                  className="nav-pill pill-more"
-                  onClick={closeMobileMenu}
-                  tabIndex={isMobileMenuOpen ? 0 : -1}
-                >
-                  More
-                </a>
-              </li>
+              {NAV_ITEMS.map((item) => {
+                const isActive = currentPath === item.path;
+                return (
+                  <li key={item.path}>
+                    <a
+                      href={item.path}
+                      className={`nav-pill ${item.pillClass} ${isActive ? 'active' : ''}`}
+                      onClick={(e) => handleLinkClick(e, item.path)}
+                      tabIndex={isMobileMenuOpen ? 0 : -1}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -209,3 +182,5 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
     </header>
   );
 };
+
+export default Navbar;

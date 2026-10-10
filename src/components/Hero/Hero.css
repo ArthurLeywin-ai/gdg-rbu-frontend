@@ -98,6 +98,7 @@
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
+  text-decoration: none;
   transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
 }
 

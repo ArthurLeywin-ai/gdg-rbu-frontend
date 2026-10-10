@@ -1,0 +1,388 @@
+/* ==========================================================================
+   Upcoming Event Section (Neo-Brutalist Cards + Notched Ticket Stub)
+   ========================================================================== */
+
+.upcoming-events-section {
+  width: 100%;
+  padding: 64px 24px 88px 24px;
+  position: relative;
+  background-color: transparent;
+  scroll-margin-top: 80px; /* Accounts for fixed navbar height */
+}
+
+.events-container {
+  width: 100%;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+}
+
+/* Centered Display Heading */
+.events-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-black);
+  margin-bottom: 48px;
+  letter-spacing: -0.5px;
+  line-height: 1.35;
+}
+
+/* 2-Column Responsive Card Grid */
+.events-cards-grid {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 32px;
+}
+
+/* Base Card Styles */
+.event-card {
+  border: 3px solid var(--color-black);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Left: Overview Card (Architectural Gradient Surface)
+   ========================================================================== */
+
+.event-overview-card {
+  flex: 1.35;
+  min-height: 420px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, #9ca3af 0%, #475569 48%, #1e293b 100%);
+  background-size: 24px 24px, 24px 24px, 100% 100%;
+  color: var(--color-white);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.event-overview-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 7px 7px 0px var(--color-black);
+}
+
+.overview-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.overview-category-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.overview-status-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: 2px solid var(--color-black);
+  border-radius: 9999px;
+  padding: 3px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  box-shadow: 2px 2px 0px var(--color-black);
+  letter-spacing: 0.5px;
+}
+
+.overview-body {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+.overview-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.overview-description {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin-bottom: 22px;
+  overflow-wrap: break-word;
+}
+
+.overview-action-row {
+  display: flex;
+  align-items: center;
+}
+
+.overview-arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  background-color: var(--google-yellow);
+  color: var(--color-black);
+  border: 2.5px solid var(--color-black);
+  box-shadow: 3px 3px 0px var(--color-black);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+}
+
+.overview-arrow-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px var(--color-black);
+  background-color: #ffd043;
+}
+
+.overview-arrow-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--color-black);
+}
+
+.overview-arrow-btn:focus-visible {
+  outline: 3px solid var(--google-blue);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Right: Notched Event Ticket Stub
+   ========================================================================== */
+
+.event-ticket-card {
+  flex: 1;
+  min-height: 420px;
+  background-color: var(--google-yellow);
+  padding: 32px 28px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden; /* Clips outer half of circular edge notches */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.event-ticket-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 7px 7px 0px var(--color-black);
+}
+
+.ticket-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-black);
+  letter-spacing: -0.5px;
+}
+
+.ticket-title-line {
+  display: block;
+}
+
+/* Dotted Perforation with Authentic Edge Notches */
+.ticket-perforation {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 22px -28px; /* Extends flush to the 3px border edges */
+  height: 28px;
+  pointer-events: none;
+}
+
+.ticket-divider-line {
+  flex: 1;
+  border-top: 2.5px dotted rgba(0, 0, 0, 0.45);
+  margin: 0 16px;
+}
+
+.ticket-notch {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background-color: var(--bg-page);
+  border: 3px solid var(--color-black);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.ticket-notch.notch-left {
+  left: -14px;
+}
+
+.ticket-notch.notch-right {
+  right: -14px;
+}
+
+/* Ticket Details & Action */
+.ticket-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #1f2937;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.ticket-datetime-content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.ticket-datetime-main {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-black);
+  line-height: 1.25;
+}
+
+.ticket-datetime-sub {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-top: 2px;
+}
+
+.ticket-ref-note {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.65);
+  margin-top: 6px;
+  display: block;
+}
+
+.ticket-action {
+  width: 100%;
+}
+
+.ticket-register-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 2px solid var(--color-black);
+  border-radius: 9999px;
+  padding: 13px 24px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+  min-height: 44px;
+  user-select: none;
+}
+
+.ticket-register-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.35);
+  background-color: #18181b;
+}
+
+.ticket-register-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-register-btn:focus-visible {
+  outline: 3px solid var(--google-blue);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .upcoming-events-section {
+    padding: 48px 20px 68px 20px;
+  }
+
+  .events-heading {
+    margin-bottom: 36px;
+  }
+
+  .events-cards-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .event-overview-card,
+  .event-ticket-card {
+    width: 100%;
+    max-width: 580px;
+    flex: none;
+    min-height: auto;
+  }
+
+  .overview-body {
+    margin-top: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .upcoming-events-section {
+    padding: 36px 14px 54px 14px;
+  }
+
+  .event-overview-card {
+    padding: 22px 18px;
+  }
+
+  .event-ticket-card {
+    padding: 24px 18px 20px 18px;
+  }
+
+  .ticket-perforation {
+    margin: 18px -18px;
+  }
+
+  .overview-description {
+    font-size: 0.85rem;
+  }
+
+  .ticket-datetime-main {
+    font-size: 1.05rem;
+  }
+}

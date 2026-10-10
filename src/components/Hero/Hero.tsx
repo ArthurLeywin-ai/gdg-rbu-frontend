@@ -32,6 +32,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick }) => {
 
   return (
     <section
+      id="hero"
       className="hero-section"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
@@ -52,13 +53,13 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick }) => {
           </p>
 
           <div className="hero-cta-group">
-            <button
-              type="button"
+            <a
+              href="#events"
               className="hero-btn hero-btn-learn"
-              aria-label="Learn more about Google Developer Groups RBU"
+              aria-label="Learn more about Google Developer Groups RBU events"
             >
               LEARN MORE
-            </button>
+            </a>
 
             <button
               type="button"
