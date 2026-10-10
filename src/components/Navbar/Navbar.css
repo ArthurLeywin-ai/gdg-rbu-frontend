@@ -1,0 +1,307 @@
+/* ==========================================================================
+   Navbar Styling (Neo-Brutalist + Official Reference Colors & Join Us CTA)
+   ========================================================================== */
+
+.navbar-header {
+  position: relative;
+  width: 100%;
+  background-color: transparent;
+  z-index: 100;
+  padding: 16px 24px;
+}
+
+.navbar-container {
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Brand Logo */
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.12s ease;
+}
+
+.navbar-brand:hover {
+  transform: translateY(-1px);
+}
+
+.navbar-logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ==========================================================================
+   Desktop Navigation Pills
+   ========================================================================== */
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-pill-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--color-black);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: var(--border-medium);
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.nav-pill:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--color-black);
+}
+
+.nav-pill:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-pressed);
+}
+
+/* Authentic Google-Inspired Color Mappings Sampled Directly From Reference */
+.pill-home {
+  background-color: #51a2fe; /* Reference Sky / Cerulean Blue */
+  color: var(--color-black);
+}
+
+.pill-team {
+  background-color: #ff6567; /* Reference Vibrant Coral Red */
+  color: var(--color-black);
+}
+
+.pill-events {
+  background-color: #fcc700; /* Reference Vibrant Golden Yellow */
+  color: var(--color-black);
+}
+
+.pill-gallery {
+  background-color: #05df71; /* Reference Vibrant Emerald Mint */
+  color: var(--color-black);
+}
+
+.pill-portfolio {
+  background-color: #7c86ff; /* Reference Vibrant Soft Periwinkle */
+  color: var(--color-black);
+}
+
+.pill-more {
+  background-color: #51a2fe; /* Reference Light Blue / Cyan */
+  color: var(--color-black);
+}
+
+/* ==========================================================================
+   Official "Join Us" CTA (Replaces legacy profile chip)
+   ========================================================================== */
+
+.nav-cta-join {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  padding: 9px 22px;
+  border-radius: 9999px;
+  border: var(--border-medium);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+}
+
+.nav-cta-join:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--color-black);
+  background-color: #fafafa;
+}
+
+.nav-cta-join:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-pressed);
+  background-color: #f0f0f0;
+}
+
+/* ==========================================================================
+   Mobile Toggle Button
+   ========================================================================== */
+
+.navbar-mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 42px;
+  height: 42px;
+  background-color: var(--color-white);
+  border: var(--border-medium);
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+  padding: 9px;
+  cursor: pointer;
+  z-index: 110;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.navbar-mobile-toggle:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--color-black);
+}
+
+.navbar-mobile-toggle:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-pressed);
+}
+
+.hamburger-bar {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-black);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar-mobile-toggle.open .hamburger-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-mobile-toggle.open .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-mobile-toggle.open .hamburger-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   Mobile Navigation Drawer (With hard shadows, zero clipping at 320px)
+   ========================================================================== */
+
+.mobile-nav-drawer {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 12px;
+  right: 18px; /* 18px right accounts for 6px box shadow, preventing overflow */
+  background-color: var(--color-white);
+  border: var(--border-thick);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  padding: 16px;
+  z-index: 105;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  box-sizing: border-box;
+}
+
+.mobile-nav-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-nav-inner {
+  width: 100%;
+}
+
+.mobile-pill-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px 0;
+}
+
+.mobile-pill-list .nav-pill {
+  width: 100%;
+  padding: 9px 8px;
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mobile-join-container {
+  border-top: 1.5px dashed var(--color-black);
+  padding-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-join-btn {
+  width: 100%;
+  max-width: 220px;
+  text-align: center;
+  padding: 10px 18px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .desktop-nav,
+  .desktop-join {
+    display: none;
+  }
+
+  .navbar-mobile-toggle {
+    display: flex;
+  }
+
+  .mobile-nav-drawer {
+    display: block;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar-header {
+    padding: 12px 14px;
+  }
+
+  .mobile-nav-drawer {
+    left: 8px;
+    right: 14px;
+    padding: 12px;
+  }
+
+  .mobile-pill-list {
+    gap: 6px;
+  }
+
+  .mobile-pill-list .nav-pill {
+    font-size: 0.8rem;
+    padding: 8px 6px;
+  }
+}

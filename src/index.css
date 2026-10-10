@@ -1,0 +1,126 @@
+:root {
+  /* Surface and Background */
+  --bg-page: #f8f9fa;
+  --grid-line-color: rgba(0, 0, 0, 0.055);
+  --grid-pitch: 28px;
+
+  /* Typography */
+  --font-display: 'Press Start 2P', monospace, sans-serif;
+  --font-mono: 'Space Mono', 'SF Mono', Consolas, monospace;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Text Colors */
+  --text-main: #0a0a0a;
+  --text-muted: #374151;
+
+  /* Neo-Brutalist Core Colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --google-blue: #4285F4;
+  --google-red: #EA4335;
+  --google-yellow: #FBBC04;
+  --google-green: #34A853;
+
+  /* Neo-Brutalist Borders & Shadows */
+  --border-thick: 2.5px solid var(--color-black);
+  --border-medium: 2px solid var(--color-black);
+  --border-thin: 1.5px solid var(--color-black);
+
+  --shadow-sm: 2px 2px 0px var(--color-black);
+  --shadow-md: 4px 4px 0px var(--color-black);
+  --shadow-lg: 6px 6px 0px var(--color-black);
+  --shadow-pressed: 1px 1px 0px var(--color-black);
+
+  /* Layout Max Width */
+  --max-width-content: 1240px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Subtle architectural grid pattern matching Figma */
+body {
+  background-image: 
+    linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
+  background-size: var(--grid-pitch) var(--grid-pitch);
+  background-position: center top;
+}
+
+/* Accessible visible focus ring */
+:focus-visible {
+  outline: 3px solid var(--google-blue);
+  outline-offset: 3px;
+}
+
+/* Neo-Brutalist Informational Toast for Unavailable States */
+.app-notice-toast {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: #fef08a; /* Soft warning/notice yellow */
+  color: var(--color-black);
+  border: var(--border-medium);
+  box-shadow: var(--shadow-md);
+  padding: 10px 18px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+}
+
+.notice-icon {
+  font-size: 1rem;
+}
+
+.notice-text {
+  flex: 1;
+}
+
+.notice-dismiss-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-black);
+  font-weight: 800;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.notice-dismiss-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
