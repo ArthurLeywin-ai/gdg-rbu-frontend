@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from '../../hooks/useInView';
 import './FAQ.css';
 
 interface FAQItem {
@@ -41,6 +42,27 @@ const FAQ_DATA: FAQItem[] = [
 ];
 
 export const FAQ: React.FC = () => {
+  const [sectionRef, isInView] = useInView<HTMLElement>({
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+  const [isObserverReady, setIsObserverReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver !== 'undefined') {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isTargetHash = window.location.hash === '#faq';
+      if (!prefersReduced && !isTargetHash) {
+        setIsObserverReady(true);
+      }
+    }
+  }, []);
+
+  const revealClasses = isObserverReady
+    ? `reveal-ready ${isInView ? 'is-revealed' : ''}`
+    : '';
+
   // Question 1 expanded by default matching Figma reference (image 7.png)
   const [openIds, setOpenIds] = useState<Set<string>>(new Set(['faq-1']));
 
@@ -57,15 +79,24 @@ export const FAQ: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="faq-section" aria-label="Frequently Asked Questions">
+    <section
+      ref={sectionRef}
+      id="faq"
+      className={`faq-section ${revealClasses}`}
+      aria-label="Frequently Asked Questions"
+    >
       <div className="faq-container">
         <h2 className="faq-heading">FAQs</h2>
 
         <div className="faq-list" role="region" aria-label="FAQ Accordion">
-          {FAQ_DATA.map((item) => {
+          {FAQ_DATA.map((item, index) => {
             const isOpen = openIds.has(item.id);
             return (
-              <div key={item.id} className="faq-item">
+              <div
+                key={item.id}
+                className="faq-item"
+                style={{ '--faq-index': index } as React.CSSProperties}
+              >
                 <button
                   type="button"
                   id={`faq-btn-${item.id}`}

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from '../../hooks/useInView';
+import { useCardTilt } from '../../hooks/useCardTilt';
 import './UpcomingEvent.css';
 
 interface UpcomingEventProps {
@@ -6,10 +8,91 @@ interface UpcomingEventProps {
 }
 
 export const UpcomingEvent: React.FC<UpcomingEventProps> = ({ onRegisterClick }) => {
+  const [sectionRef, isInView] = useInView<HTMLElement>({
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+  const [isObserverReady, setIsObserverReady] = useState(false);
+
+  // Studio-grade 3D pointer tilt tracking (Lusion-inspired, restrained to 4.5deg)
+  const overviewTiltRef = useCardTilt<HTMLElement>({
+    maxTiltX: 4.5,
+    maxTiltY: 5.0,
+    perspective: 1000,
+    glare: true,
+  });
+
+  const ticketTiltRef = useCardTilt<HTMLElement>({
+    maxTiltX: 4.5,
+    maxTiltY: 5.0,
+    perspective: 1000,
+    glare: true,
+  });
+
+  // Dedicated card-level observers:
+  // On desktop, both cards enter simultaneously with the section.
+  // On mobile (stacked layout), each card animates individually right as the user scrolls into it.
+  const [, isOverviewInView] = useInView<HTMLElement>({
+    targetRef: overviewTiltRef,
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+
+  const [, isTicketInView] = useInView<HTMLElement>({
+    targetRef: ticketTiltRef,
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(min-width: 769px)');
+      setIsDesktop(mediaQuery.matches);
+      const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handler);
+      } else if (typeof (mediaQuery as any).addListener === 'function') {
+        (mediaQuery as any).addListener(handler);
+      }
+      return () => {
+        if (typeof mediaQuery.removeEventListener === 'function') {
+          mediaQuery.removeEventListener('change', handler);
+        } else if (typeof (mediaQuery as any).removeListener === 'function') {
+          (mediaQuery as any).removeListener(handler);
+        }
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver !== 'undefined') {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isTargetHash = window.location.hash === '#events' || window.location.hash === '#event-ticket';
+      if (!prefersReduced && !isTargetHash) {
+        setIsObserverReady(true);
+      }
+    }
+  }, []);
+
+  const revealClasses = isObserverReady
+    ? `reveal-ready ${isInView ? 'is-revealed' : ''}`
+    : '';
+
+  // Desktop (min-width: 769px): cards reveal simultaneously when section enters view.
+  // Mobile (max-width: 768px, stacked): Overview reveals when reached, Ticket reveals when reached.
+  const overviewRevealed = isObserverReady && (isDesktop ? isInView || isOverviewInView : isOverviewInView);
+  const ticketRevealed = isObserverReady && (isDesktop ? isInView || isTicketInView : isTicketInView);
+
   return (
     <section
+      ref={sectionRef}
       id="events"
-      className="upcoming-events-section"
+      className={`upcoming-events-section ${revealClasses}`}
       aria-label="Upcoming Event Section"
     >
       <div className="events-container">
@@ -19,7 +102,8 @@ export const UpcomingEvent: React.FC<UpcomingEventProps> = ({ onRegisterClick })
         <div className="events-cards-grid">
           {/* Left Card: Overview Card with Architectural Background */}
           <article
-            className="event-card event-overview-card"
+            ref={overviewTiltRef}
+            className={`event-card event-overview-card ${overviewRevealed ? 'is-revealed' : ''}`}
             aria-labelledby="overview-title"
           >
             <div className="overview-header">
@@ -62,8 +146,9 @@ export const UpcomingEvent: React.FC<UpcomingEventProps> = ({ onRegisterClick })
 
           {/* Right Card: Notched Event Ticket Stub */}
           <article
+            ref={ticketTiltRef}
             id="event-ticket"
-            className="event-card event-ticket-card"
+            className={`event-card event-ticket-card ${ticketRevealed ? 'is-revealed' : ''}`}
             aria-labelledby="ticket-title"
           >
             <div className="ticket-header">

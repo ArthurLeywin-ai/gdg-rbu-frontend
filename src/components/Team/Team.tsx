@@ -1,9 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from '../../hooks/useInView';
+import { useCardTilt } from '../../hooks/useCardTilt';
+import teamPhoto from '../../assets/team-photo.png';
 import './Team.css';
 
 export const Team: React.FC = () => {
+  const [sectionRef, isInView] = useInView<HTMLElement>({
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+  const [isObserverReady, setIsObserverReady] = useState(false);
+
+  // 3D pointer tilt tracking on team photo frame
+  const photoTiltRef = useCardTilt<HTMLDivElement>({
+    maxTiltX: 4.0,
+    maxTiltY: 4.5,
+    perspective: 1000,
+    glare: true,
+  });
+
+  // Dedicated observer for team photo frame when stacked on mobile
+  const [, isPhotoInView] = useInView<HTMLDivElement>({
+    targetRef: photoTiltRef,
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+
+  useEffect(() => {
+    if (typeof IntersectionObserver !== 'undefined') {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isTargetHash = window.location.hash === '#team';
+      if (!prefersReduced && !isTargetHash) {
+        setIsObserverReady(true);
+      }
+    }
+  }, []);
+
+  const revealClasses = isObserverReady
+    ? `reveal-ready ${isInView ? 'is-revealed' : ''}`
+    : '';
+
+  const photoRevealed = isObserverReady && (isInView || isPhotoInView);
+
   return (
-    <section id="team" className="team-section" aria-label="Team Introduction">
+    <section
+      ref={sectionRef}
+      id="team"
+      className={`team-section ${revealClasses}`}
+      aria-label="Team Introduction"
+    >
       <div className="team-container">
         <div className="team-grid">
           {/* Left Column: Semantic Copy & Community Highlights */}
@@ -45,9 +92,9 @@ export const Team: React.FC = () => {
 
           {/* Right Column: Framed Team Photograph */}
           <div className="team-visual-column">
-            <div className="team-photo-frame">
+            <div ref={photoTiltRef} className={`team-photo-frame ${photoRevealed ? 'is-revealed' : ''}`}>
               <img
-                src="/figma%20images/team-photo.png"
+                src={teamPhoto}
                 alt="Google Developer Groups RBU Student Team"
                 className="team-photo-img"
                 loading="lazy"

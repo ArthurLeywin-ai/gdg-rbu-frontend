@@ -42,6 +42,10 @@
   border-radius: 18px;
   box-shadow: var(--shadow-lg);
   box-sizing: border-box;
+  perspective: var(--perspective, 1000px);
+  transform-style: preserve-3d;
+  position: relative;
+  will-change: transform, box-shadow;
 }
 
 /* ==========================================================================
@@ -61,12 +65,46 @@
     linear-gradient(180deg, #9ca3af 0%, #475569 48%, #1e293b 100%);
   background-size: 24px 24px, 24px 24px, 100% 100%;
   color: var(--color-white);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transform: perspective(var(--perspective, 1000px))
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg))
+             translate3d(var(--lift-x, 0px), var(--lift-y, 0px), 0);
+  transition: transform var(--card-transition-speed, 350ms) cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow var(--card-transition-speed, 350ms) cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.event-overview-card:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 7px 7px 0px var(--color-black);
+@media (hover: hover) and (pointer: fine) {
+  .event-overview-card:hover,
+  .event-overview-card[data-tilting="true"] {
+    transform: perspective(var(--perspective, 1000px))
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg))
+               translate3d(var(--lift-x, -2px), var(--lift-y, -2px), 0);
+    box-shadow: 7px 7px 0px var(--color-black);
+  }
+}
+
+/* Specular Glare Sheen Overlay (Lusion-inspired subtle lighting) */
+.event-overview-card::after,
+.event-ticket-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.16) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .event-overview-card:hover::after,
+  .event-overview-card[data-tilting="true"]::after,
+  .event-ticket-card:hover::after,
+  .event-ticket-card[data-tilting="true"]::after {
+    opacity: 1;
+  }
 }
 
 .overview-header {
@@ -98,6 +136,7 @@
   font-weight: 800;
   box-shadow: 2px 2px 0px var(--color-black);
   letter-spacing: 0.5px;
+  transform: translateZ(16px);
 }
 
 .overview-body {
@@ -129,6 +168,7 @@
 .overview-action-row {
   display: flex;
   align-items: center;
+  transform: translateZ(18px);
 }
 
 .overview-arrow-btn {
@@ -146,17 +186,21 @@
   box-shadow: 3px 3px 0px var(--color-black);
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              background-color var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.overview-arrow-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0px var(--color-black);
-  background-color: #ffd043;
+@media (hover: hover) and (pointer: fine) {
+  .overview-arrow-btn:hover {
+    transform: translate3d(-2px, -2px, 8px) scale(1.06);
+    box-shadow: 5px 5px 0px var(--color-black);
+    background-color: #ffd043;
+  }
 }
 
 .overview-arrow-btn:active {
-  transform: translate(2px, 2px);
+  transform: translate3d(1px, 1px, 0) scale(0.96);
   box-shadow: 1px 1px 0px var(--color-black);
 }
 
@@ -179,17 +223,29 @@
   justify-content: space-between;
   position: relative;
   overflow: hidden; /* Clips outer half of circular edge notches */
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transform: perspective(var(--perspective, 1000px))
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg))
+             translate3d(var(--lift-x, 0px), var(--lift-y, 0px), 0);
+  transition: transform var(--card-transition-speed, 350ms) cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow var(--card-transition-speed, 350ms) cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.event-ticket-card:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 7px 7px 0px var(--color-black);
+@media (hover: hover) and (pointer: fine) {
+  .event-ticket-card:hover,
+  .event-ticket-card[data-tilting="true"] {
+    transform: perspective(var(--perspective, 1000px))
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg))
+               translate3d(var(--lift-x, -2px), var(--lift-y, -2px), 0);
+    box-shadow: 7px 7px 0px var(--color-black);
+  }
 }
 
 .ticket-header {
   display: flex;
   flex-direction: column;
+  transform: translateZ(16px);
 }
 
 .ticket-title {
@@ -224,7 +280,7 @@
 .ticket-notch {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateZ(6px);
   width: 28px;
   height: 28px;
   background-color: var(--bg-page);
@@ -245,6 +301,7 @@
 .ticket-details {
   display: flex;
   flex-direction: column;
+  transform: translateZ(16px);
 }
 
 .ticket-meta-label {
@@ -308,19 +365,23 @@
   letter-spacing: 0.3px;
   cursor: pointer;
   box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              background-color var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
   min-height: 44px;
   user-select: none;
 }
 
-.ticket-register-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.35);
-  background-color: #18181b;
+@media (hover: hover) and (pointer: fine) {
+  .ticket-register-btn:hover {
+    transform: translate3d(-2px, -2px, 8px) scale(1.02);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
+    background-color: #18181b;
+  }
 }
 
 .ticket-register-btn:active {
-  transform: translate(2px, 2px);
+  transform: translate3d(1px, 1px, 0) scale(0.97);
   box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -384,5 +445,147 @@
 
   .ticket-datetime-main {
     font-size: 1.05rem;
+  }
+}
+
+/* ==========================================================================
+   Scroll-Triggered Reveal Animations (Progressively Enabled)
+   ========================================================================== */
+
+@keyframes eventOverviewReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-56px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes eventTicketReveal {
+  from {
+    opacity: 0;
+    transform: translateX(56px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.upcoming-events-section.reveal-ready .events-heading {
+  transition: opacity 1.0s cubic-bezier(0.22, 1, 0.36, 1), transform 1.0s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.upcoming-events-section.reveal-ready:not(.is-revealed) .events-heading {
+  opacity: 0;
+  transform: translateY(32px) scale(0.98);
+}
+
+.upcoming-events-section.is-revealed .events-heading {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ==========================================================================
+   Desktop Scroll-Triggered Reveal Animations (min-width: 769px)
+   Preserves approved simultaneous horizontal entrance animations exactly
+   ========================================================================== */
+
+@media (min-width: 769px) {
+  .upcoming-events-section.reveal-ready:not(.is-revealed) .event-overview-card,
+  .upcoming-events-section.reveal-ready .event-overview-card:not(.is-revealed) {
+    opacity: 0;
+    transform: translateX(-56px) scale(0.96);
+  }
+
+  .upcoming-events-section.reveal-ready:not(.is-revealed) .event-ticket-card,
+  .upcoming-events-section.reveal-ready .event-ticket-card:not(.is-revealed) {
+    opacity: 0;
+    transform: translateX(56px) scale(0.96);
+  }
+
+  .upcoming-events-section.is-revealed .event-overview-card,
+  .upcoming-events-section.reveal-ready .event-overview-card.is-revealed {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    animation: eventOverviewReveal 1.0s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .upcoming-events-section.is-revealed .event-ticket-card,
+  .upcoming-events-section.reveal-ready .event-ticket-card.is-revealed {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    animation: eventTicketReveal 1.0s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Guard: 3D perspective tilt and specular hover elevation inside reveal-ready sections */
+@media (hover: hover) and (pointer: fine) {
+  .upcoming-events-section.reveal-ready .event-overview-card:hover,
+  .upcoming-events-section.reveal-ready .event-overview-card[data-tilting="true"],
+  .upcoming-events-section.reveal-ready .event-ticket-card:hover,
+  .upcoming-events-section.reveal-ready .event-ticket-card[data-tilting="true"] {
+    transform: perspective(var(--perspective, 1000px))
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg))
+               translate3d(var(--lift-x, -2px), var(--lift-y, -2px), 0);
+    box-shadow: 7px 7px 0px var(--color-black);
+  }
+}
+
+
+/* ==========================================================================
+   Mobile Scroll-Triggered Reveal Animations (max-width: 768px)
+   Independent vertical entrance: Overview reveals when reached, Ticket reveals when reached
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  @keyframes eventCardRevealMobile {
+    from {
+      opacity: 0;
+      transform: translateY(28px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .upcoming-events-section.reveal-ready .event-overview-card,
+  .upcoming-events-section.reveal-ready .event-ticket-card {
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .upcoming-events-section.reveal-ready .event-overview-card:not(.is-revealed),
+  .upcoming-events-section.reveal-ready .event-ticket-card:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+    animation: none !important;
+  }
+
+  .upcoming-events-section.reveal-ready .event-overview-card.is-revealed,
+  .upcoming-events-section.reveal-ready .event-ticket-card.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: eventCardRevealMobile 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Reduced Motion and Touch Accessibility Guards */
+@media (prefers-reduced-motion: reduce) {
+  .event-card,
+  .event-overview-card,
+  .event-ticket-card,
+  .overview-arrow-btn,
+  .ticket-register-btn {
+    transform: none !important;
+    transition: none !important;
+  }
+  .event-overview-card::after,
+  .event-ticket-card::after {
+    display: none !important;
   }
 }

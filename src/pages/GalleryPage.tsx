@@ -1,5 +1,6 @@
 import React from 'react';
 import { Footer } from '../components/Footer/Footer';
+import teamPhoto from '../assets/team-photo.png';
 import './Pages.css';
 
 export const GalleryPage: React.FC = () => {
@@ -20,7 +21,7 @@ export const GalleryPage: React.FC = () => {
           <article className="gallery-card">
             <div className="gallery-img-container">
               <img
-                src="/figma%20images/team-photo.png"
+                src={teamPhoto}
                 alt="Chapter Team Assembly"
                 className="gallery-img"
                 loading="lazy"

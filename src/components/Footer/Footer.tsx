@@ -1,16 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from '../../hooks/useInView';
+import gdgLogo from '../../assets/gdg logo.png';
+import geometricBaseline from '../../assets/image 123.png';
 import './Footer.css';
 
 export const Footer: React.FC = () => {
+  const [footerRef, isInView] = useInView<HTMLElement>({
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px',
+    triggerOnce: false,
+  });
+  const [isObserverReady, setIsObserverReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver !== 'undefined') {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isTargetHash = window.location.hash === '#footer';
+      if (!prefersReduced && !isTargetHash) {
+        setIsObserverReady(true);
+      }
+    }
+  }, []);
+
+  const revealClasses = isObserverReady
+    ? `reveal-ready ${isInView ? 'is-revealed' : ''}`
+    : '';
+
   return (
-    <footer id="footer" className="footer-section" role="contentinfo">
+    <footer
+      ref={footerRef}
+      id="footer"
+      className={`footer-section ${revealClasses}`}
+      role="contentinfo"
+    >
       <div className="footer-container">
         {/* Framed Neo-Brutalist Main Card matching Figma image 6.png */}
         <div className="footer-main-card">
           {/* Brand Header */}
           <div className="footer-brand-header">
             <img
-              src="/figma%20images/gdg%20logo.png"
+              src={gdgLogo}
               alt="Google Developer Groups Emblem"
               className="footer-brand-logo"
             />
@@ -89,7 +118,7 @@ export const Footer: React.FC = () => {
       {/* Bottom Baseline: Decorative Geometric Footer Banner */}
       <div className="footer-geometric-baseline" aria-hidden="true">
         <img
-          src="/figma%20images/image%20123.png"
+          src={geometricBaseline}
           alt=""
           className="footer-geometric-img"
           loading="lazy"

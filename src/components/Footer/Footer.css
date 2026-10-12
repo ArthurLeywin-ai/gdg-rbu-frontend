@@ -41,6 +41,17 @@
   width: auto;
   margin-bottom: 20px;
   display: block;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-brand-logo:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+.footer-brand-logo:active {
+  transform: translateY(0px) scale(0.98);
 }
 
 .footer-brand-title {
@@ -90,9 +101,19 @@
   padding: 16px 20px;
   border: 3px solid var(--color-black);
   border-radius: 12px;
-  box-shadow: 4px 4px 0px var(--color-black);
+  box-shadow: 6px 6px 0px var(--color-black);
   box-sizing: border-box;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-info-pill:hover {
+    transform: translate3d(-2px, -2px, 4px);
+    box-shadow: 8px 8px 0px var(--color-black);
+  }
+}
+
 
 .footer-info-pill.pill-blue {
   background-color: #5ea4f8;
@@ -140,7 +161,7 @@
   background-color: #7c7ff6;
   border: 3px solid var(--color-black);
   border-radius: 12px;
-  box-shadow: 4px 4px 0px var(--color-black);
+  box-shadow: 6px 6px 0px var(--color-black);
   box-sizing: border-box;
   text-align: center;
 }
@@ -170,9 +191,10 @@
   min-height: 44px;
   border: 2.5px solid var(--color-black);
   border-radius: 8px;
-  box-shadow: 3px 3px 0px var(--color-black);
+  box-shadow: 5px 5px 0px var(--color-black);
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
   user-select: none;
 }
 
@@ -197,14 +219,16 @@
   font-size: 1.1rem;
 }
 
-.social-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0px var(--color-black);
+@media (hover: hover) and (pointer: fine) {
+  .social-btn:hover {
+    transform: translate3d(-3px, -3px, 6px) rotate(3deg) scale(1.06);
+    box-shadow: 7px 7px 0px var(--color-black);
+  }
 }
 
 .social-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px var(--color-black);
+  transform: translate3d(1px, 1px, 0) rotate(0deg) scale(0.96);
+  box-shadow: 2px 2px 0px var(--color-black);
 }
 
 .social-btn:focus-visible {
@@ -267,5 +291,56 @@
 
   .pill-secondary {
     font-size: 0.78rem;
+  }
+}
+
+/* ==========================================================================
+   Scroll-Triggered Reveal Animations (Progressively Enabled)
+   ========================================================================== */
+
+.footer-section.reveal-ready .footer-main-card {
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-section.reveal-ready:not(.is-revealed) .footer-main-card {
+  opacity: 0;
+  transform: translateY(56px) scale(0.97);
+}
+
+.footer-section.reveal-ready .footer-geometric-baseline {
+  transition: opacity 1.0s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.footer-section.reveal-ready:not(.is-revealed) .footer-geometric-baseline {
+  opacity: 0;
+}
+
+.footer-section.is-revealed .footer-main-card {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.footer-section.is-revealed .footer-geometric-baseline {
+  opacity: 1;
+}
+
+/* Mobile Restraint: Reduce travel distance */
+@media (max-width: 768px) {
+  .footer-section.reveal-ready:not(.is-revealed) .footer-main-card {
+    transform: translateY(32px) scale(0.97);
+  }
+
+  .footer-section.is-revealed .footer-main-card {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-main-card,
+  .footer-brand-logo,
+  .footer-info-pill,
+  .social-btn {
+    transform: none !important;
+    transition: none !important;
   }
 }

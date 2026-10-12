@@ -33,12 +33,41 @@
 
   /* Layout Max Width */
   --max-width-content: 1240px;
+
+  /* Motion Tokens (P0-3) */
+  --duration-fast: 180ms;
+  --duration-normal: 280ms;
+  --duration-reveal: 480ms;
+
+  --ease-snappy: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Hover Elevation (P0-3) */
+  --shadow-hover: 7px 7px 0px var(--color-black);
+
+  /* 3D Motion & Specular Tokens (Phase 4) */
+  --perspective-default: 1000px;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --glare-opacity: 0.14;
+}
+
+/* Dormant Dark-Mode Variable Slots (Phase 0 Foundation) */
+[data-theme='dark'] {
+  --bg-page: #121316;
+  --text-main: #f8f9fa;
+  --text-muted: #9ca3af;
+  --grid-line-color: rgba(255, 255, 255, 0.08);
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-padding-top: 80px;
 }
 
 html, body {
@@ -49,7 +78,7 @@ html, body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Subtle architectural grid pattern matching Figma */
@@ -78,7 +107,7 @@ body {
   color: #000000;
   border: 3px solid #000000;
   border-radius: 8px;
-  box-shadow: 4px 4px 0 #000000;
+  box-shadow: 6px 6px 0 #000000;
   padding: 10px 14px 10px 16px;
   display: flex;
   align-items: center;
@@ -246,11 +275,20 @@ body {
   line-height: 1;
   border-radius: 4px;
   flex-shrink: 0;
-  transition: background-color 0.12s ease;
+  transition: background-color var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.notice-dismiss-btn:hover {
-  background-color: rgba(0, 0, 0, 0.12);
+@media (hover: hover) and (pointer: fine) {
+  .notice-dismiss-btn:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+    transform: scale(1.06);
+  }
+}
+
+.notice-dismiss-btn:active {
+  transform: scale(0.94);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .notice-dismiss-btn:focus-visible {
@@ -301,5 +339,34 @@ body {
   .toast-shatter-tile {
     display: none !important;
   }
+
+  .reveal-ready,
+  .reveal-ready * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   Accessibility & Anchor Navigation Overrides for Scroll Reveals
+   ========================================================================== */
+
+/* Keyboard focus immediately reveals section controls */
+.reveal-ready:focus-within,
+.reveal-ready:focus-within * {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Direct anchor target navigation immediately reveals targeted sections */
+:target.reveal-ready,
+:target.reveal-ready *,
+.reveal-ready:has(:target),
+.reveal-ready:has(:target) * {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 

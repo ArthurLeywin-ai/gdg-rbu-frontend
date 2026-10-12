@@ -3,11 +3,32 @@
    ========================================================================== */
 
 .navbar-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
-  background-color: transparent;
+  background-color: rgba(248, 249, 250, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 100;
   padding: 16px 24px;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.navbar-header.navbar--hidden {
+  transform: translateY(-100%);
+}
+
+.navbar-header.navbar--visible,
+.navbar-header.is-focused,
+.navbar-header:focus-within {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-header {
+    transition: none !important;
+  }
 }
 
 .navbar-container {
@@ -24,11 +45,17 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  transition: transform 0.12s ease;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.navbar-brand:hover {
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .navbar-brand:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+.navbar-brand:active {
+  transform: translateY(0px) scale(0.98);
 }
 
 .navbar-logo-img {
@@ -71,17 +98,40 @@
   border: var(--border-medium);
   box-shadow: var(--shadow-sm);
   user-select: none;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.nav-pill:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px var(--color-black);
+@media (hover: hover) and (pointer: fine) {
+  .nav-pill:hover {
+    transform: translate3d(-2px, -2px, 4px) scale(1.02);
+    box-shadow: 4px 4px 0px var(--color-black);
+  }
 }
 
 .nav-pill:active {
-  transform: translate(1px, 1px);
+  transform: translate3d(1px, 1px, 0) scale(0.96);
   box-shadow: var(--shadow-pressed);
+}
+
+/* Specular Light Sheen for Navigation Pills */
+.nav-pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-fast, 180ms) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-pill:hover::after {
+    opacity: 1;
+  }
 }
 
 /* Authentic Google-Inspired Color Mappings Sampled Directly From Reference */
@@ -117,8 +167,8 @@
 
 /* Distinct Active Navigation Pill Indicator */
 .nav-pill.active {
-  box-shadow: 4px 4px 0px var(--color-black);
-  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0px var(--color-black);
+  transform: translate3d(-3px, -3px, 6px);
   border-width: 2.5px;
   font-weight: 800;
   outline: 2px solid var(--color-black);
@@ -147,19 +197,42 @@
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   user-select: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              background-color var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.nav-cta-join:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px var(--color-black);
-  background-color: #fafafa;
+@media (hover: hover) and (pointer: fine) {
+  .nav-cta-join:hover {
+    transform: translate3d(-3px, -3px, 6px) scale(1.02);
+    box-shadow: var(--shadow-lg, 6px 6px 0px var(--color-black));
+    background-color: #fafafa;
+  }
 }
 
 .nav-cta-join:active {
-  transform: translate(1px, 1px);
+  transform: translate3d(1px, 1px, 0) scale(0.97);
   box-shadow: var(--shadow-pressed);
   background-color: #f0f0f0;
+}
+
+.nav-cta-join::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-fast, 180ms) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-cta-join:hover::after {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
@@ -179,16 +252,21 @@
   padding: 9px;
   cursor: pointer;
   z-index: 110;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              background-color var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.navbar-mobile-toggle:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px var(--color-black);
+@media (hover: hover) and (pointer: fine) {
+  .navbar-mobile-toggle:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-md, 4px 4px 0px var(--color-black));
+    background-color: #fafafa;
+  }
 }
 
 .navbar-mobile-toggle:active {
-  transform: translate(1px, 1px);
+  transform: translate(1px, 1px) scale(0.96);
   box-shadow: var(--shadow-pressed);
 }
 
@@ -197,7 +275,7 @@
   height: 3px;
   background-color: var(--color-black);
   border-radius: 2px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .navbar-mobile-toggle.open .hamburger-bar:nth-child(1) {
@@ -231,7 +309,7 @@
   transform: translateY(-8px);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   box-sizing: border-box;
 }
 
@@ -313,5 +391,19 @@
   .mobile-pill-list .nav-pill {
     font-size: 0.8rem;
     padding: 8px 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill,
+  .nav-cta-join,
+  .navbar-brand,
+  .navbar-mobile-toggle {
+    transform: none !important;
+    transition: none !important;
+  }
+  .nav-pill::after,
+  .nav-cta-join::after {
+    display: none !important;
   }
 }

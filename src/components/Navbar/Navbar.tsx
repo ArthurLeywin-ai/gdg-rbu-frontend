@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useScrollDirection } from '../../hooks/useScrollDirection';
 import { AppRoute } from '../../router/routes';
+import gdgLogo from '../../assets/gdg logo.png';
 import './Navbar.css';
 
 interface NavbarProps {
@@ -24,7 +26,9 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onJoinClick }) => {
+  const scrollDirection = useScrollDirection({ threshold: 10, topOffset: 80 });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -73,8 +77,27 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onJoinC
     onJoinClick?.();
   }, [closeMobileMenu, onJoinClick]);
 
+  const handleFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleBlur = useCallback((e: React.FocusEvent<HTMLElement>) => {
+    // If focus moves outside the navbar element, clear focus state
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsFocused(false);
+    }
+  }, []);
+
+  // Navbar hides only when scrolling down, mobile drawer is closed, and no inner element is focused
+  const isHidden = scrollDirection === 'down' && !isMobileMenuOpen && !isFocused;
+
   return (
-    <header className="navbar-header" role="banner">
+    <header
+      className={`navbar-header ${isHidden ? 'navbar--hidden' : 'navbar--visible'} ${isFocused ? 'is-focused' : ''}`}
+      role="banner"
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+    >
       <div className="navbar-container">
         {/* Left: GDG Brand Logo */}
         <a
@@ -84,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onJoinC
           onClick={(e) => handleLinkClick(e, '/')}
         >
           <img
-            src="/figma%20images/gdg%20logo.png"
+            src={gdgLogo}
             alt="Google Developer Groups Logo"
             className="navbar-logo-img"
           />

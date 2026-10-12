@@ -99,19 +99,42 @@
   cursor: pointer;
   user-select: none;
   text-decoration: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              background-color var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.hero-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px var(--color-black);
-  background-color: #fafafa;
+@media (hover: hover) and (pointer: fine) {
+  .hero-btn:hover {
+    transform: translate3d(-3px, -3px, 6px) scale(1.02);
+    box-shadow: var(--shadow-hover, 7px 7px 0px var(--color-black));
+    background-color: #fafafa;
+  }
 }
 
 .hero-btn:active {
-  transform: translate(2px, 2px);
+  transform: translate3d(1px, 1px, 0) scale(0.97);
   box-shadow: var(--shadow-pressed);
   background-color: #f0f0f0;
+}
+
+.hero-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-fast, 180ms) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-btn:hover::after {
+    opacity: 1;
+  }
 }
 
 /* "GDG • RBU" Badge with Authentic Negative Tilt from Figma Reference */
@@ -137,6 +160,16 @@
   transform: rotate(-3.5deg); /* Subtle negative rotation matching Figma reference */
   transform-origin: left center;
   user-select: none;
+  transition: transform var(--duration-normal, 280ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-normal, 280ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-badge:hover {
+    transform: perspective(600px) rotate(-1.5deg) rotateY(5deg) scale(1.04);
+    box-shadow: var(--shadow-md, 4px 4px 0px var(--color-black));
+    cursor: default;
+  }
 }
 
 /* ==========================================================================
@@ -420,5 +453,16 @@
   .hero-visual-wrapper {
     max-width: 270px;
     height: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-btn,
+  .hero-badge {
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-btn::after {
+    display: none !important;
   }
 }

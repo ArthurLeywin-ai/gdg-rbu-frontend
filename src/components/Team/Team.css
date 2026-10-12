@@ -86,6 +86,15 @@
   font-weight: 900;
   font-size: 0.9rem;
   margin-top: 2px;
+  transition: transform var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow var(--duration-fast, 180ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .team-feature-item:hover .feature-icon-circle {
+    transform: translate3d(-2px, -2px, 4px) scale(1.06);
+    box-shadow: 4px 4px 0px var(--color-black);
+  }
 }
 
 .feature-text {
@@ -123,6 +132,47 @@
   box-shadow: var(--shadow-md);
   overflow: hidden;
   background-color: #000000;
+  perspective: var(--perspective, 1000px);
+  transform-style: preserve-3d;
+  position: relative;
+  will-change: transform, box-shadow;
+  transform: perspective(var(--perspective, 1000px))
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg))
+             translate3d(var(--lift-x, 0px), var(--lift-y, 0px), 0);
+  transition: transform var(--card-transition-speed, 350ms) cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow var(--card-transition-speed, 350ms) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .team-photo-frame:hover,
+  .team-photo-frame[data-tilting="true"] {
+    transform: perspective(var(--perspective, 1000px))
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg))
+               translate3d(var(--lift-x, -2px), var(--lift-y, -2px), 0);
+    box-shadow: 7px 7px 0px var(--color-black);
+  }
+}
+
+/* Specular Glare Sheen Overlay on Photo Frame */
+.team-photo-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.16) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .team-photo-frame:hover::after,
+  .team-photo-frame[data-tilting="true"]::after {
+    opacity: 1;
+  }
 }
 
 .team-photo-img {
@@ -130,11 +180,15 @@
   height: auto;
   display: block;
   object-fit: cover;
-  transition: transform 0.25s ease;
+  transform: translateZ(6px) scale(1);
+  transition: transform var(--duration-normal, 280ms) var(--ease-snappy, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.team-photo-frame:hover .team-photo-img {
-  transform: scale(1.02);
+@media (hover: hover) and (pointer: fine) {
+  .team-photo-frame:hover .team-photo-img,
+  .team-photo-frame[data-tilting="true"] .team-photo-img {
+    transform: translateZ(14px) scale(1.025);
+  }
 }
 
 /* Responsive Breakpoints */
@@ -179,5 +233,119 @@
 
   .feature-desc {
     font-size: 0.82rem;
+  }
+}
+
+/* ==========================================================================
+   Scroll-Triggered Reveal Animations (Progressively Enabled)
+   ========================================================================== */
+
+.team-section.reveal-ready .team-heading,
+.team-section.reveal-ready .team-lead {
+  transition: opacity 1.0s cubic-bezier(0.22, 1, 0.36, 1), transform 1.0s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.team-section.reveal-ready:not(.is-revealed) .team-heading,
+.team-section.reveal-ready:not(.is-revealed) .team-lead {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+}
+
+.team-section.reveal-ready .team-feature-item:nth-child(1) {
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.team-section.reveal-ready:not(.is-revealed) .team-feature-item:nth-child(1) {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+}
+
+.team-section.reveal-ready .team-feature-item:nth-child(2) {
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+}
+
+.team-section.reveal-ready:not(.is-revealed) .team-feature-item:nth-child(2) {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+}
+
+.team-section.reveal-ready .team-photo-frame {
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s;
+}
+
+.team-section.reveal-ready .team-photo-frame:not(.is-revealed),
+.team-section.reveal-ready:not(.is-revealed) .team-photo-frame:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+}
+
+.team-section.is-revealed .team-heading,
+.team-section.is-revealed .team-lead {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.team-section.is-revealed .team-feature-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.team-section.reveal-ready .team-photo-frame.is-revealed,
+.team-section.is-revealed .team-photo-frame {
+  opacity: 1;
+  transform: perspective(var(--perspective, 1000px))
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg))
+             translate3d(var(--lift-x, 0px), var(--lift-y, 0px), 0);
+}
+
+
+/* Mobile Restraint: When stacked vertically on mobile, trigger photo when it enters view */
+@media (max-width: 768px) {
+  .team-section.reveal-ready .team-photo-frame {
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .team-section.reveal-ready:not(.is-revealed) .team-heading,
+  .team-section.reveal-ready:not(.is-revealed) .team-lead {
+    transform: translateY(28px) scale(0.98);
+  }
+
+  .team-section.reveal-ready:not(.is-revealed) .team-feature-item {
+    transform: translateY(28px) scale(0.95);
+  }
+
+  .team-section.reveal-ready .team-photo-frame:not(.is-revealed),
+  .team-section.reveal-ready:not(.is-revealed) .team-photo-frame {
+    transform: translateY(28px) scale(0.95);
+    opacity: 0;
+  }
+
+  .team-section.is-revealed .team-heading,
+  .team-section.is-revealed .team-lead,
+  .team-section.is-revealed .team-feature-item {
+    transform: translateY(0) scale(1);
+  }
+
+  .team-section.reveal-ready .team-photo-frame.is-revealed,
+  .team-section.is-revealed .team-photo-frame {
+    transform: perspective(var(--perspective, 1000px))
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg))
+               translate3d(var(--lift-x, 0px), var(--lift-y, 0px), 0);
+    opacity: 1;
+  }
+}
+
+/* Reduced Motion Safeguard */
+@media (prefers-reduced-motion: reduce) {
+  .team-photo-frame,
+  .team-photo-img,
+  .feature-icon-circle {
+    transform: none !important;
+    transition: none !important;
+  }
+  .team-photo-frame::after {
+    display: none !important;
   }
 }
